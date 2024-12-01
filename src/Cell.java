@@ -1,12 +1,13 @@
 public class Cell {
     private int x, y;
     private CellEntityType type;
-    private boolean visited;
-    public Cell(int x, int y, CellEntityType type, boolean visited) {
+    private boolean visited, pVisited;
+    public Cell(int x, int y, CellEntityType type) {
         this.x = x;
         this.y = y;
         this.type = type;
-        this.visited = visited;
+        this.visited = false;
+        this.pVisited = false;
     }
 
     public int getX() {
@@ -41,7 +42,15 @@ public class Cell {
         this.visited = visited;
     }
 
+    public boolean isPVisited() {
+        return pVisited;
+    }
+
+    public void setPVisited(boolean pVisited) {
+        this.pVisited = pVisited;
+    }
+
     public String toString() {
-        return "(" + x + ", " + y + ") - " + type;
+        return "(" + x + ", " + y + ") - " + type + " - Visited: " + visited;
     }
 }
