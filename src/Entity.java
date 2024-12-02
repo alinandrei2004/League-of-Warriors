@@ -6,9 +6,11 @@ public abstract class Entity implements Battle{
     protected boolean fireImmune, iceImmune, earthImmune;
 
     public Entity(int health, int mana) {
-        this.health = this.maxHealth = health;
-        this.mana = this.maxMana = mana;
+        this.health = health;
+        this.mana = mana;
         this.abilities = new ArrayList<>();
+        this.maxHealth = 100;
+        this.maxMana = 100;
     }
 
     public void regenH(int value) {

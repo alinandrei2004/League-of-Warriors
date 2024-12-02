@@ -5,7 +5,7 @@ import java.util.Random;
 public class Grid extends ArrayList<ArrayList<Cell>> {
     private int rows, cols, firstShow = 0;
     private Character player;
-    private Cell currentCell = new Cell(0, 0, CellEntityType.PLAYER);
+    private static Cell currentCell = new Cell(0, 0, CellEntityType.PLAYER);
 
     private Grid(int rows, int cols, Character player) {
         this.rows = rows;
@@ -30,11 +30,14 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             grid.add(row);
         }
 
+        // Set player
         ArrayList<Cell> rowP = grid.getFirst();
         Cell cellP = rowP.getFirst();
         cellP.setType(CellEntityType.PLAYER);
         cellP.setVisited(true);
         cellP.setPVisited(true);
+
+        System.out.println(player.toString());
 
         ArrayList<Cell> rowF = grid.get(rows - 1);
         Cell cellF = rowF.get(cols - 1);
@@ -82,8 +85,11 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         playerY = rand.nextInt(cols);
         ArrayList<Cell> rowPlayer = grid.get(playerX);
         Cell playerCell = rowPlayer.get(playerY);
+        playerCell.setPVisited(true);
+        playerCell.setVisited(true);
 
         playerCell.setType(CellEntityType.PLAYER);
+        currentCell = playerCell;
 
         int portalX, portalY;
         portalX = rand.nextInt(rows);
@@ -138,7 +144,28 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             cell.setVisited(true);
             lastCell.setType(CellEntityType.VOID);
             lastCell.setPVisited(false);
+
+            // Print data about the current cell
             this.currentCell = cell;
+            if (cell.getType() == CellEntityType.VOID) {
+                System.out.println("You are traveling trough the wilderness!");
+            } else if (cell.getType() == CellEntityType.SANCTUARY) {
+                System.out.println("You found a sanctuary!");
+
+                player.regenM(player.maxMana);
+                player.regenH(player.maxHealth);
+            } else if (cell.getType() == CellEntityType.PORTAL) {
+                System.out.println("You found the portal!");
+                System.out.println("You won the game!");
+
+                // Exit the game
+                showMap();
+                System.exit(0);
+            }
+
+            // Print data about the player
+            System.out.println(player.toString());
+
         } else {
             System.out.println("You can't go east");
         }
@@ -157,7 +184,27 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             cell.setVisited(true);
             lastCell.setType(CellEntityType.VOID);
             lastCell.setPVisited(false);
-            currentCell = cell;
+
+            // Print data about the current cell
+            this.currentCell = cell;
+            if (cell.getType() == CellEntityType.VOID) {
+                System.out.println("You are traveling trough the wilderness!");
+            } else if (cell.getType() == CellEntityType.SANCTUARY) {
+                System.out.println("You found a sanctuary!");
+
+                player.regenM(player.maxMana);
+                player.regenH(player.maxHealth);
+            } else if (cell.getType() == CellEntityType.PORTAL) {
+                System.out.println("You found the portal!");
+                System.out.println("You won the game!");
+
+                // Exit the game
+                showMap();
+                System.exit(0);
+            }
+
+            // Print data about the player
+            System.out.println(player.toString());
         } else {
             System.out.println("You can't go west");
         }
@@ -177,7 +224,27 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             cell.setVisited(true);
             lastCell.setType(CellEntityType.VOID);
             lastCell.setPVisited(false);
-            currentCell = cell;
+
+            // Print data about the current cell
+            this.currentCell = cell;
+            if (cell.getType() == CellEntityType.VOID) {
+                System.out.println("You are traveling trough the wilderness!");
+            } else if (cell.getType() == CellEntityType.SANCTUARY) {
+                System.out.println("You found a sanctuary!");
+
+                player.regenM(player.maxMana);
+                player.regenH(player.maxHealth);
+            } else if (cell.getType() == CellEntityType.PORTAL) {
+                System.out.println("You found the portal!");
+                System.out.println("You won the game!");
+
+                // Exit the game
+                showMap();
+                System.exit(0);
+            }
+
+            // Print data about the player
+            System.out.println(player.toString());
         } else {
             System.out.println("You can't go north");
         }
@@ -185,7 +252,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 
     public void goSouth() {
         currentCell = this.getCurrentCell();
-        System.out.println(currentCell);
         int x = currentCell.getX();
         int y = currentCell.getY();
         if (x + 1 < rows) {
@@ -198,8 +264,27 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             cell.setVisited(true);
             lastCell.setType(CellEntityType.VOID);
             lastCell.setPVisited(false);
-            currentCell = cell;
-            System.out.println(currentCell);
+
+            // Print data about the current cell
+            this.currentCell = cell;
+            if (cell.getType() == CellEntityType.VOID) {
+                System.out.println("You are traveling trough the wilderness!");
+            } else if (cell.getType() == CellEntityType.SANCTUARY) {
+                System.out.println("You found a sanctuary!");
+
+                player.regenM(player.maxMana);
+                player.regenH(player.maxHealth);
+            } else if (cell.getType() == CellEntityType.PORTAL) {
+                System.out.println("You found the portal!");
+                System.out.println("You won the game!");
+
+                // Exit the game
+                showMap();
+                System.exit(0);
+            }
+
+            // Print data about the player
+            System.out.println(player.toString());
         } else {
             System.out.println("You can't go south");
         }

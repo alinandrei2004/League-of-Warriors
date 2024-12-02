@@ -51,4 +51,9 @@ public abstract class Character extends Entity{
         }
         System.out.println("Congrats! Now your level is: " + level);
     }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Health: " + health + ", Mana: " + mana + ", Strength: " + strength + ", Charisma: " + charisma + ", Dexterity: " + dexterity;
+    }
 }
