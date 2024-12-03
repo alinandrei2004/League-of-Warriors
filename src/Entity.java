@@ -1,8 +1,12 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public abstract class Entity implements Battle{
+
+    Random rand = new Random();
     protected int health, maxHealth, mana, maxMana;
     protected ArrayList<Spell> abilities;
+    protected int nAbilities = rand.nextInt(3, 7);
     protected boolean fireImmune, iceImmune, earthImmune;
 
     public Entity(int health, int mana) {
@@ -24,6 +28,35 @@ public abstract class Entity implements Battle{
         mana += value;
         if (mana > maxMana) {
             mana = maxMana;
+        }
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public void generateAbilities() {
+        for (int i = 0; i < nAbilities; i++) {
+            int type = rand.nextInt(1, 4);
+            int damage = rand.nextInt(15, 21);
+            int manaCost = rand.nextInt(10) + 1;
+            switch (type) {
+                case 1:
+                    abilities.add(new Fire(damage, manaCost));
+                    break;
+                case 2:
+                    abilities.add(new Ice(damage, manaCost));
+                    break;
+                case 3:
+                    abilities.add(new Earth(damage, manaCost));
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

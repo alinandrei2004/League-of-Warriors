@@ -1,24 +1,30 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Grid extends ArrayList<ArrayList<Cell>> {
+
+    Random rand = new Random();
+    private Scanner input = new Scanner(System.in);
     private int rows, cols, firstShow = 0;
     private Character player;
+    private static Enemy enemy;
     private static Cell currentCell = new Cell(0, 0, CellEntityType.PLAYER);
 
-    private Grid(int rows, int cols, Character player) {
+    private Grid(int rows, int cols, Character player, Enemy enemy) {
         this.rows = rows;
         this.cols = cols;
         this.player = player;
+        this.enemy = enemy;
     }
 
     public Cell getCurrentCell() {
         return currentCell;
     }
 
-    public static Grid gridHard(int rows, int cols, Character player) {
-        Grid grid = new Grid(rows, cols, player);
+    public static Grid gridHard(int rows, int cols, Character player, Enemy enemy) {
+        Grid grid = new Grid(rows, cols, player, enemy);
 
         for (int i = 0; i < rows; i++) {
             ArrayList<Cell> row = new ArrayList<>();
@@ -67,7 +73,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
     }
 
     public static Grid gridGenerator(int rows, int cols, Character player) {
-        Grid grid = new Grid(rows, cols, player);
+        Grid grid = new Grid(rows, cols, player, enemy);
         Random rand = new Random();
 
         for (int i = 0; i < rows; i++) {
@@ -281,6 +287,42 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 // Exit the game
                 showMap();
                 System.exit(0);
+            } else if (cell.getType() == CellEntityType.ENEMY) {
+                System.out.println("You found an enemy!");
+                System.out.println(enemy.toString());
+
+                player.generateAbilities();
+                enemy.generateAbilities();
+
+                System.out.println("You have " + player.nAbilities + " abilities:");
+                for (Spell spell : player.abilities) {
+                    System.out.println(spell.toString());
+                }
+
+                System.out.println("The enemy has " + enemy.nAbilities + " abilities:");
+                for (Spell spell : enemy.abilities) {
+                    System.out.println(spell.toString());
+                }
+
+                int i = input.nextInt();
+                player.useAbility(player.abilities.get(i), enemy);
+
+                System.out.println("You used " + player.abilities.get(i).toString());
+
+                if (enemy.getHealth() <= 0) {
+                    System.out.println("You defeated the enemy!");
+                    cell.setType(CellEntityType.VOID);
+                } else {
+                    int enemyAbility = rand.nextInt(enemy.nAbilities);
+                    enemy.useAbility(enemy.abilities.get(enemyAbility), player);
+                    System.out.println("The enemy used " + enemy.abilities.get(enemyAbility).toString());
+                    if (player.getHealth() <= 0) {
+                        System.out.println("You lost the game!");
+                        System.exit(0);
+                    }
+                }
+
+                // URMEAZA SA MAI IMPLEMENTEZ CAZURILE DE IMUNITATE
             }
 
             // Print data about the player

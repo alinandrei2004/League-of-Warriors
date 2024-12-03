@@ -28,4 +28,9 @@ public class Warrior extends Character implements Battle {
         return baseDmg;
     }
 
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Health: " + health + ", Mana: " + mana + ", Strength: " + strength + ", Charisma: " + charisma + ", Dexterity: " + dexterity + "; Immunity: Fire";
+    }
+
 }
