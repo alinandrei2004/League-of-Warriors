@@ -8,6 +8,11 @@ public abstract class Spell {
     protected ArrayList<Spell> abilities = new ArrayList<>();
     protected int nAbilities = rand.nextInt(3, 7);
 
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String BLUE = "\u001B[34m";
+
     public Spell(int damage, int manaCost) {
         this.AbilityDamage = damage;
         this.manaCost = manaCost;
@@ -21,34 +26,13 @@ public abstract class Spell {
         return manaCost;
     }
 
-//    public void generateAbilities() {
-//        for (int i = 0; i < nAbilities; i++) {
-//            int type = rand.nextInt(1, 4);
-//            int damage = rand.nextInt(15, 21);
-//            int manaCost = rand.nextInt(10) + 1;
-//            switch (type) {
-//                case 1:
-//                    abilities.add(new Fire(damage, manaCost));
-//                    break;
-//                case 2:
-//                    abilities.add(new Ice(damage, manaCost));
-//                    break;
-//                case 3:
-//                    abilities.add(new Earth(damage, manaCost));
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//    }
-
     public String toString() {
         if (this instanceof Fire) {
-            return "[Fire]:  Damage: " + AbilityDamage + ", Mana cost: " + manaCost;
+            return RED + "[Fire]:" + RESET + "   Damage: " + AbilityDamage + ", Mana cost: " + manaCost;
         } else if (this instanceof Ice) {
-            return "[Ice]:   Damage: " + AbilityDamage + ", Mana cost: " + manaCost;
+            return BLUE + "[Ice]:" + RESET + "    Damage: " + AbilityDamage + ", Mana cost: " + manaCost;
         } else if (this instanceof Earth) {
-            return "[Earth]: Damage: " + AbilityDamage + ", Mana cost: " + manaCost;
+            return GREEN + "[Earth]:" + RESET + "  Damage: " + AbilityDamage + ", Mana cost: " + manaCost;
         }
         return "";
     }

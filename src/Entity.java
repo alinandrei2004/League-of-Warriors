@@ -8,13 +8,18 @@ public abstract class Entity implements Battle{
     protected ArrayList<Spell> abilities;
     protected int nAbilities = rand.nextInt(3, 7);
     protected boolean fireImmune, iceImmune, earthImmune;
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
 
-    public Entity(int health, int mana) {
+    public Entity(int health, int mana, boolean fireImmune, boolean iceImmune, boolean earthImmune) {
         this.health = health;
         this.mana = mana;
         this.abilities = new ArrayList<>();
         this.maxHealth = 100;
         this.maxMana = 100;
+        this.fireImmune = fireImmune;
+        this.iceImmune = iceImmune;
+        this.earthImmune = earthImmune;
     }
 
     public void regenH(int value) {

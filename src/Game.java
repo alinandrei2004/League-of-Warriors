@@ -10,16 +10,16 @@ public class Game {
     private Character player = new Warrior("GIGI", 90, 20, 50, 10, 2);
     private int EnemyHealth  = rand.nextInt(100) + 1;
     private int EnemyMana = rand.nextInt(100) + 1;
-    private int EnemyFireImmune = rand.nextInt(2);
-    private int EnemyIceImmune = rand.nextInt(2);
-    private int EnemyEarthImmune = rand.nextInt(2);
+    private boolean EnemyFireImmune = rand.nextBoolean();
+    private boolean EnemyIceImmune = rand.nextBoolean();
+    private boolean EnemyEarthImmune = rand.nextBoolean();
     private Enemy enemy = new Enemy(EnemyHealth, EnemyMana, EnemyFireImmune, EnemyIceImmune, EnemyEarthImmune);
 
     public Game() {
         addKeyListener(keyH);
     }
 
-    public void runHard() {
+    public void runHard() throws ImpossibleMove, NoAbilities {
         grid = Grid.gridHard(5, 5, player, enemy);
         grid.showMap();
         grid.goEast();
@@ -41,7 +41,7 @@ public class Game {
 
     }
 
-    public void run() {
+    public void run() throws ImpossibleMove, NoAbilities {
 //        player = new Character(100, 100);
         grid = Grid.gridGenerator(5, 5, player);
 //        System.out.println(grid.toString());

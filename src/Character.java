@@ -5,7 +5,7 @@ public abstract class Character extends Entity{
     protected int strength, charisma, dexterity;
 
     public Character(String name, int health, int mana, int strength, int charisma, int dexterity) {
-        super(health, mana);
+        super(health, mana, false, false, false);
         this.name = name;
         this.strength = strength;
         this.charisma = charisma;

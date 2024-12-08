@@ -3,15 +3,12 @@ import java.util.Random;
 
 public class Enemy extends Entity {
     Random rand = new Random();
-    private int fireImmune, iceImmune, earthImmune;
+//    private int fireImmune, iceImmune, earthImmune;
 //    private int nAbilities = rand.nextInt( 3, 6) + 1;
 //    private ArrayList<Spell> abilities = new ArrayList<>();
 
-    public Enemy(int health, int mana, int fireImmune, int iceImmune, int earthImmune) {
-        super(health, mana);
-        this.fireImmune = fireImmune;
-        this.iceImmune = iceImmune;
-        this.earthImmune = earthImmune;
+    public Enemy(int health, int mana, boolean fireImmune, boolean iceImmune, boolean earthImmune) {
+        super(health, mana, fireImmune, iceImmune, earthImmune);
     }
 
     public void receiveDamage(int damage) {
@@ -20,7 +17,7 @@ public class Enemy extends Entity {
             health -= damage;
         }
         else {
-            System.out.println("The Enemy dodged the attack!");
+            System.out.println(RED + "The Enemy dodged the attack!" + RESET);
         }
 
     }
@@ -29,7 +26,7 @@ public class Enemy extends Entity {
         int damage = rand.nextInt(10) + 1;
         boolean chance = Math.random() < 0.5;
         if (chance) {
-            System.out.println("The Enemy feels powerful today");
+            System.out.println(RED + "The Enemy feels powerful today" + RESET);
             return damage * 2;
         }
         return damage;
