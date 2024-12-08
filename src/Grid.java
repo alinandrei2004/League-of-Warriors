@@ -378,22 +378,20 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                     System.out.println("The enemy is immune to fire!");
                     player.abilities.remove(i);
                     player.nAbilities--;
-                    continue;
                 } else if (currentAbility instanceof Ice && enemy.iceImmune) {
                     System.out.println("The enemy is immune to ice!");
                     player.abilities.remove(i);
                     player.nAbilities--;
-                    continue;
                 } else if (currentAbility instanceof Earth && enemy.earthImmune) {
                     System.out.println(RED + "The enemy is immune to earth!" + RESET);
                     player.abilities.remove(i);
                     player.nAbilities--;
-                    continue;
+                } else {
+                    player.useAbility(player.abilities.get(i), enemy);
+                    System.out.println("You used " + player.abilities.get(i).toString());
+                    player.abilities.remove(i);
+                    player.nAbilities--;
                 }
-                player.useAbility(player.abilities.get(i), enemy);
-                System.out.println("You used " + player.abilities.get(i).toString());
-                player.abilities.remove(i);
-                player.nAbilities--;
 
                 if (enemy.getHealth() <= 0) {
 
@@ -405,10 +403,25 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                         player.receiveDamage(enemy.getDamage());
                         System.out.println("The enemy used a normal attack!");
                     } else {
-                        enemy.useAbility(enemy.abilities.get(enemyAbility), player);
-                        System.out.println("The enemy used " + enemy.abilities.get(enemyAbility).toString());
-                        enemy.abilities.remove(enemyAbility);
-                        enemy.nAbilities--;
+                        Spell currentEnemyAbility = enemy.abilities.get(enemyAbility);
+                        if (currentEnemyAbility instanceof Fire && player.fireImmune) {
+                            System.out.println("The enemy tried to use fire, but " + player.getName() + " is immune to fire!");
+                            enemy.abilities.remove(enemyAbility);
+                            enemy.nAbilities--;
+                        } else if (currentEnemyAbility instanceof Ice && player.iceImmune) {
+                            System.out.println("The enemy tried to use ice, but " + player.getName() + " is immune to ice!");
+                            enemy.abilities.remove(enemyAbility);
+                            enemy.nAbilities--;
+                        } else if (currentEnemyAbility instanceof Earth && player.earthImmune) {
+                            System.out.println("The enemy tried to use earth, but " + player.getName() + " is immune to earth!");
+                            enemy.abilities.remove(enemyAbility);
+                            enemy.nAbilities--;
+                        } else {
+                            enemy.useAbility(enemy.abilities.get(enemyAbility), player);
+                            System.out.println("The enemy used " + enemy.abilities.get(enemyAbility).toString());
+                            enemy.abilities.remove(enemyAbility);
+                            enemy.nAbilities--;
+                        }
                         if (player.getHealth() <= 0) {
                             System.out.println(RED + "You lost the game!" + RESET);
                             System.exit(0);

@@ -4,8 +4,8 @@ public abstract class Character extends Entity{
     protected int xp, level;
     protected int strength, charisma, dexterity;
 
-    public Character(String name, int health, int mana, int strength, int charisma, int dexterity) {
-        super(health, mana, false, false, false);
+    public Character(String name, int health, int mana, int strength, int charisma, int dexterity, boolean fireImmune, boolean iceImmune, boolean earthImmune) {
+        super(health, mana, fireImmune, iceImmune, earthImmune);
         this.name = name;
         this.strength = strength;
         this.charisma = charisma;
@@ -50,6 +50,10 @@ public abstract class Character extends Entity{
             dexterity += 1;
         }
         System.out.println("Congrats! Now your level is: " + level);
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

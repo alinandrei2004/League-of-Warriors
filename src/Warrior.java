@@ -1,7 +1,7 @@
-public class Warrior extends Character implements Battle {
+public class Warrior extends Character {
 
     public Warrior(String name, int health, int mana, int strength, int charisma, int dexterity) {
-        super(name, health, mana, strength, charisma, dexterity);
+        super(name, health, mana, strength, charisma, dexterity, true, false, false);
     }
 
     @Override
