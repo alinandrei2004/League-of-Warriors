@@ -1,7 +1,7 @@
 public class Warrior extends Character {
 
-    public Warrior(String name, int health, int mana, int strength, int charisma, int dexterity) {
-        super(name, health, mana, strength, charisma, dexterity, true, false, false);
+    public Warrior(String name, int experience, int level, int health, int mana, int strength, int charisma, int dexterity) {
+        super(name, experience, level, health, mana, strength, charisma, dexterity, true, false, false);
     }
 
     @Override
@@ -23,6 +23,7 @@ public class Warrior extends Character {
         boolean crit = Math.random() < 0.5;
         int baseDmg = (int) (strength * 0.75 + dexterity * 0.15 + charisma * 0.1);
         if (crit) {
+            System.out.println(RED + "The Warrior feels powerful today" + RESET);
             return baseDmg * 2;
         }
         return baseDmg;

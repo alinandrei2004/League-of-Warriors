@@ -11,6 +11,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
     private Character player;
     private static Enemy enemy;
     private static Cell currentCell = new Cell(0, 0, CellEntityType.PLAYER);
+    private static int playerDmg, enemyDmg;
 
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
@@ -30,7 +31,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 
     public static Grid gridHard(int rows, int cols, Character player, Enemy enemy) {
         Grid grid = new Grid(rows, cols, player, enemy);
-
+        playerDmg = player.getDamage();
         for (int i = 0; i < rows; i++) {
             ArrayList<Cell> row = new ArrayList<>();
             for (int j = 0; j < cols; j++) {
@@ -47,7 +48,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         cellP.setType(CellEntityType.PLAYER);
         cellP.setVisited(true);
         cellP.setPVisited(true);
-        player.generateAbilities();
+        player.generateAbilities(playerDmg);
 
 //        System.out.println(player.toString());
 
@@ -81,6 +82,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
     public static Grid gridGenerator(int rows, int cols, Character player, Enemy enemy) {
         Grid grid = new Grid(rows, cols, player, enemy);
         Random rand = new Random();
+        playerDmg = player.getDamage();
 
         for (int i = 0; i < rows; i++) {
             ArrayList<Cell> row = new ArrayList<>();
@@ -99,7 +101,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         Cell playerCell = rowPlayer.get(playerY);
         playerCell.setPVisited(true);
         playerCell.setVisited(true);
-        player.generateAbilities();
+        player.generateAbilities(playerDmg);
 
         playerCell.setType(CellEntityType.PLAYER);
         currentCell = playerCell;
@@ -145,7 +147,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         return grid;
     }
 
-    public void goEast()  {
+    public Grid goEast(Grid grid)  {
         currentCell = this.getCurrentCell();
         int x = currentCell.getX();
         int y = currentCell.getY();
@@ -175,6 +177,10 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 // Exit the game
 //                showMap();
 //                System.exit(0);
+                int newRows = rand.nextInt(3, 10) + 1;
+                int newCols = rand.nextInt(3, 10) + 1;
+                Grid newGrid = gridGenerator(newRows, newCols, player, enemy);
+                grid = newGrid;
             } else if (cell.getType() == CellEntityType.ENEMY) {
                 if (enemy.getHealth() <= 0) {
                     newEnemy();
@@ -197,9 +203,10 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 throw new RuntimeException(e);
             }
         }
+        return grid;
     }
 
-    public void goWest() {
+    public Grid goWest(Grid grid) {
         currentCell = this.getCurrentCell();
         int x = currentCell.getX();
         int y = currentCell.getY();
@@ -229,6 +236,10 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 // Exit the game
 //                showMap();
 //                System.exit(0);
+                int newRows = rand.nextInt(3, 10) + 1;
+                int newCols = rand.nextInt(3, 10) + 1;
+                Grid newGrid = gridGenerator(newRows, newCols, player, enemy);
+                grid = newGrid;
             } else if (cell.getType() == CellEntityType.ENEMY) {
                 if (enemy.getHealth() <= 0) {
                     newEnemy();
@@ -250,9 +261,10 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 throw new RuntimeException(e);
             }
         }
+        return grid;
     }
 
-    public void goNorth() {
+    public Grid goNorth(Grid grid) {
         currentCell = this.getCurrentCell();
         int x = currentCell.getX();
         int y = currentCell.getY();
@@ -283,6 +295,10 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 // Exit the game
 //                showMap();
 //                System.exit(0);
+                int newRows = rand.nextInt(3, 10) + 1;
+                int newCols = rand.nextInt(3, 10) + 1;
+                Grid newGrid = gridGenerator(newRows, newCols, player, enemy);
+                grid = newGrid;
             } else if (cell.getType() == CellEntityType.ENEMY) {
                 if (enemy.getHealth() <= 0) {
                     newEnemy();
@@ -304,6 +320,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 throw new RuntimeException(e);
             }
         }
+        return grid;
     }
 
     public Grid goSouth(Grid grid) {
@@ -337,7 +354,9 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 // Exit the game
 //                showMap();
 //                System.exit(0);
-                Grid newGrid = gridGenerator(5, 5, player, enemy);
+                int newRows = rand.nextInt(3, 10) + 1;
+                int newCols = rand.nextInt(3, 10) + 1;
+                Grid newGrid = gridGenerator(newRows, newCols, player, enemy);
                 grid = newGrid;
             } else if (cell.getType() == CellEntityType.ENEMY) {
                 if (enemy.getHealth() <= 0) {
@@ -368,7 +387,8 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         System.out.println("You found an enemy!");
         System.out.println(enemy.toString());
 
-        enemy.generateAbilities();
+        enemyDmg = enemy.getDamage();
+        enemy.generateAbilities(enemyDmg);
 
         int experience = enemy.getHealth();
 
@@ -378,13 +398,13 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             for (Spell spell : player.abilities) {
                 System.out.println(spell.toString());
             }
-            System.out.println(CYAN + "[Normal]:" + RESET + " Damage: " + player.getDamage());
+            System.out.println(CYAN + "[Normal]:" + RESET + " Damage: " + playerDmg);
 
             System.out.println("The enemy has " + enemy.nAbilities + " abilities:");
             for (Spell spell : enemy.abilities) {
                 System.out.println(spell.toString());
             }
-            System.out.println(CYAN + "[Normal]:" + RESET + " Damage: " + enemy.getDamage());
+            System.out.println(CYAN + "[Normal]:" + RESET + " Damage: " + enemyDmg);
 
             int i = input.nextInt();
             if (i < 6) {
@@ -423,7 +443,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 } else {
                     int enemyAbility = rand.nextInt(enemy.nAbilities + 1);
                     if (enemyAbility == enemy.nAbilities) {
-                        player.receiveDamage(enemy.getDamage());
+                        player.receiveDamage(enemyDmg);
                         System.out.println("The enemy used a normal attack!");
                     } else {
                         Spell currentEnemyAbility = enemy.abilities.get(enemyAbility);
@@ -457,7 +477,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                     System.out.println("Enemy: " + enemy.toString());
                 }
             } else {
-                int playerDmg = player.getDamage();
+//                int playerDmg = player.getDamage();
                 enemy.receiveDamage(playerDmg);
                 System.out.println("You used a normal attack!");
 
@@ -468,7 +488,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 } else {
                     int enemyAbility = rand.nextInt(enemy.nAbilities + 1);
                     if (enemyAbility == enemy.nAbilities) {
-                        player.receiveDamage(enemy.getDamage());
+                        player.receiveDamage(enemyDmg);
                         System.out.println("The enemy used a normal attack!");
                     } else {
                         enemy.useAbility(enemy.abilities.get(enemyAbility), player);

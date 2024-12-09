@@ -2,41 +2,43 @@ public abstract class Character extends Entity{
 
     protected String name;
     protected int xp, level;
-    protected int strength, charisma, dexterity;
+    protected int strength, charisma, dexterity, damage;
 
-    public Character(String name, int health, int mana, int strength, int charisma, int dexterity, boolean fireImmune, boolean iceImmune, boolean earthImmune) {
+    public Character(String name, int experience, int level, int health, int mana, int strength, int charisma, int dexterity, boolean fireImmune, boolean iceImmune, boolean earthImmune) {
         super(health, mana, fireImmune, iceImmune, earthImmune);
         this.name = name;
         this.strength = strength;
         this.charisma = charisma;
         this.dexterity = dexterity;
-        this.xp = 0;
-        this.level = 1;
+        this.xp = experience;
+        this.level = level;
     }
 
     @Override
-    public void receiveDamage(int damage) {
-        boolean luck = Math.random() < 0.25;
-        if (luck) {
-            health -= damage / 2;
-        } else {
-            health -= damage;
-        }
-
-        if (health <= 0) {
-            health = 0;
-        }
-    }
+    public abstract void receiveDamage(int damage);
+//        boolean luck = Math.random() < 0.25;
+//        if (luck) {
+//            health -= damage / 2;
+//        } else {
+//            health -= damage;
+//        }
+//
+//        if (health <= 0) {
+//            health = 0;
+//        }
+//    }
 
     @Override
-    public int getDamage() {
-        boolean crit = Math.random() < 0.5;
-        int baseDmg = (int) (strength * 0.5 + dexterity * 0.3 + charisma * 0.2);
-        if (crit) {
-            return baseDmg * 2;
-        }
-        return baseDmg;
-    }
+    public abstract int getDamage();
+//        boolean crit = Math.random() < 0.5;
+//        int baseDmg = (int) (strength * 0.5 + dexterity * 0.3 + charisma * 0.2);
+//        if (crit) {
+//            return baseDmg * 2;
+//        }
+//        return baseDmg;
+//    }
+
+//    public abstract void generateDamage();
 
     void levelUp() {
         level++;

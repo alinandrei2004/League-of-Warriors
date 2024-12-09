@@ -8,7 +8,7 @@ public class Game {
     Random rand = new Random();
     private KeyHandler keyH = new KeyHandler();
     private Grid grid;
-    private Character player = new Warrior("GIGI", 90, 20, 50, 10, 2);
+    private Character player = new Warrior("GIGI", 10, 1, 90, 20, 50, 10, 2);
     private int EnemyHealth  = rand.nextInt(100) + 1;
     private int EnemyMana = rand.nextInt(100) + 1;
     private boolean EnemyFireImmune = rand.nextBoolean();
@@ -22,24 +22,33 @@ public class Game {
     }
 
     public void runHard() throws ImpossibleMove, NoAbilities {
+        Scanner input = new Scanner(System.in);
         grid = Grid.gridHard(5, 5, player, enemy);
         System.out.println(player.toString());
         grid.showMap();
-        grid.goEast();
+        char move = (char)input.next().charAt(0);
+        grid = grid.goEast(grid);
         grid.showMap();
-        grid.goEast();
+        move = (char)input.next().charAt(0);
+        grid = grid.goEast(grid);
         grid.showMap();
-        grid.goEast();
+        move = (char)input.next().charAt(0);
+        grid = grid.goEast(grid);
         grid.showMap();
-        grid.goEast();
+        move = (char)input.next().charAt(0);
+        grid = grid.goEast(grid);
         grid.showMap();
+        move = (char)input.next().charAt(0);
         grid = grid.goSouth(grid);
         grid.showMap();
+        move = (char)input.next().charAt(0);
         grid = grid.goSouth(grid);
         grid.showMap();
+        move = (char)input.next().charAt(0);
         grid = grid.goSouth(grid);
         grid.showMap();
-        grid = grid.goSouth(grid);
+        move = (char)input.next().charAt(0);
+        grid.goSouth(grid);
         grid.showMap();
         System.out.println(BR_GREEN +  "WOW, you are a true warrior!" + RESET);
         System.out.println(BR_GREEN +  "You completed the tutorial!" + RESET);
@@ -51,6 +60,7 @@ public class Game {
         int x = rand.nextInt(3, 10) + 1;
         int y = rand.nextInt(3, 10) + 1;
         grid = Grid.gridGenerator(x, y, player, enemy);
+        System.out.println(player.toString());
 //        System.out.println(grid.toString());
         grid.showMap();
         Scanner input = new Scanner(System.in);
@@ -59,13 +69,13 @@ public class Game {
         while(move != 'q') {
             switch (move) {
                 case 'a':
-                    grid.goWest();
+                    grid = grid.goWest(grid);
                     break;
                 case 'd':
-                    grid.goEast();
+                    grid = grid.goEast(grid);
                     break;
                 case 'w':
-                    grid.goNorth();
+                    grid = grid.goNorth(grid);
                     break;
                 case 's':
                     grid = grid.goSouth(grid);

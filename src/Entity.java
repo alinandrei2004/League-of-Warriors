@@ -44,11 +44,12 @@ public abstract class Entity implements Battle{
         return mana;
     }
 
-    public void generateAbilities() {
+    public void generateAbilities(int defaultDamage) {
         nAbilities = rand.nextInt(3, 7);
         for (int i = 0; i < nAbilities; i++) {
             int type = rand.nextInt(1, 4);
             int damage = rand.nextInt(15, 21);
+            damage += defaultDamage;
             int manaCost = rand.nextInt(10) + 1;
             switch (type) {
                 case 1:
@@ -70,6 +71,8 @@ public abstract class Entity implements Battle{
         if (mana >= spell.getManaCost()) {
             mana -= spell.getManaCost();
             target.receiveDamage(spell.getDamage());
+        } else {
+            System.out.println(RED + "Not enough mana!" + RESET);
         }
     }
 }
