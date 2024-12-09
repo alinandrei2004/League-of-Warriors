@@ -38,18 +38,15 @@ public abstract class Character extends Entity{
         return baseDmg;
     }
 
-    void levelUp(int value) {
-        xp += value;
-        if (xp >= 100) {
-            xp -= 100;
-            level++;
-            maxHealth += 10;
-            maxMana += 5;
-            strength += 2;
-            charisma += 1;
-            dexterity += 1;
-        }
+    void levelUp() {
+        level++;
+        maxHealth += 10;
+        maxMana += 5;
+        strength += 2;
+        charisma += 1;
+        dexterity += 1;
         System.out.println("Congrats! Now your level is: " + level);
+
     }
 
     public String getName() {

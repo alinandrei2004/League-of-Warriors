@@ -47,8 +47,9 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         cellP.setType(CellEntityType.PLAYER);
         cellP.setVisited(true);
         cellP.setPVisited(true);
+        player.generateAbilities();
 
-        System.out.println(player.toString());
+//        System.out.println(player.toString());
 
         ArrayList<Cell> rowF = grid.get(rows - 1);
         Cell cellF = rowF.get(cols - 1);
@@ -77,7 +78,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         return grid;
     }
 
-    public static Grid gridGenerator(int rows, int cols, Character player) {
+    public static Grid gridGenerator(int rows, int cols, Character player, Enemy enemy) {
         Grid grid = new Grid(rows, cols, player, enemy);
         Random rand = new Random();
 
@@ -98,6 +99,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         Cell playerCell = rowPlayer.get(playerY);
         playerCell.setPVisited(true);
         playerCell.setVisited(true);
+        player.generateAbilities();
 
         playerCell.setType(CellEntityType.PLAYER);
         currentCell = playerCell;
@@ -167,12 +169,17 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 player.regenH(player.maxHealth);
             } else if (cell.getType() == CellEntityType.PORTAL) {
                 System.out.println("You found the portal!");
-                System.out.println("You won the game!");
+//                System.out.println("You won the game!");
 
+                player.levelUp();
                 // Exit the game
-                showMap();
-                System.exit(0);
+//                showMap();
+//                System.exit(0);
             } else if (cell.getType() == CellEntityType.ENEMY) {
+                if (enemy.getHealth() <= 0) {
+                    newEnemy();
+                }
+
                 try {
                     fight(cell);
                 } catch (NoAbilities e) {
@@ -217,12 +224,16 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 player.regenH(player.maxHealth);
             } else if (cell.getType() == CellEntityType.PORTAL) {
                 System.out.println("You found the portal!");
-                System.out.println("You won the game!");
-
+//                System.out.println("You won the game!");
+                player.levelUp();
                 // Exit the game
-                showMap();
-                System.exit(0);
+//                showMap();
+//                System.exit(0);
             } else if (cell.getType() == CellEntityType.ENEMY) {
+                if (enemy.getHealth() <= 0) {
+                    newEnemy();
+                }
+
                 try {
                     fight(cell);
                 } catch (NoAbilities e) {
@@ -267,12 +278,16 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 player.regenH(player.maxHealth);
             } else if (cell.getType() == CellEntityType.PORTAL) {
                 System.out.println("You found the portal!");
-                System.out.println("You won the game!");
-
+//                System.out.println("You won the game!");
+                player.levelUp();
                 // Exit the game
-                showMap();
-                System.exit(0);
+//                showMap();
+//                System.exit(0);
             } else if (cell.getType() == CellEntityType.ENEMY) {
+                if (enemy.getHealth() <= 0) {
+                    newEnemy();
+                }
+
                 try {
                     fight(cell);
                 } catch (NoAbilities e) {
@@ -291,7 +306,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         }
     }
 
-    public void goSouth() {
+    public Grid goSouth(Grid grid) {
         currentCell = this.getCurrentCell();
         int x = currentCell.getX();
         int y = currentCell.getY();
@@ -317,19 +332,23 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 player.regenH(player.maxHealth);
             } else if (cell.getType() == CellEntityType.PORTAL) {
                 System.out.println("You found the portal!");
-                System.out.println("You won the game!");
-
+//                System.out.println("You won the game!");
+                player.levelUp();
                 // Exit the game
-                showMap();
-                System.exit(0);
+//                showMap();
+//                System.exit(0);
+                Grid newGrid = gridGenerator(5, 5, player, enemy);
+                grid = newGrid;
             } else if (cell.getType() == CellEntityType.ENEMY) {
+                if (enemy.getHealth() <= 0) {
+                    newEnemy();
+                }
+
                 try {
                     fight(cell);
                 } catch (NoAbilities e) {
                     throw new RuntimeException(e);
                 }
-
-                // URMEAZA SA MAI IMPLEMENTEZ CAZURILE DE IMUNITATE
             }
 
             // Print data about the player
@@ -341,14 +360,17 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 throw new RuntimeException(e);
             }
         }
+
+        return grid;
     }
 
     public void fight(Cell cell) throws NoAbilities {
         System.out.println("You found an enemy!");
         System.out.println(enemy.toString());
 
-        player.generateAbilities();
         enemy.generateAbilities();
+
+        int experience = enemy.getHealth();
 
         while(enemy.getHealth() > 0) {
 
@@ -397,6 +419,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 
                     System.out.println(GREEN + "You defeated the enemy!" + RESET);
                     cell.setType(CellEntityType.VOID);
+//                    player.levelUp();
                 } else {
                     int enemyAbility = rand.nextInt(enemy.nAbilities + 1);
                     if (enemyAbility == enemy.nAbilities) {
@@ -441,6 +464,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 if (enemy.getHealth() <= 0) {
                     System.out.println(GREEN + "You defeated the enemy!" + RESET);
                     cell.setType(CellEntityType.VOID);
+//                    player.levelUp();
                 } else {
                     int enemyAbility = rand.nextInt(enemy.nAbilities + 1);
                     if (enemyAbility == enemy.nAbilities) {
@@ -457,8 +481,22 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                         }
                     }
                 }
+                if (player.getHealth() > 0 && enemy.getHealth() > 0) {
+                    System.out.println("Player: " + player.toString());
+                    System.out.println("Enemy: " + enemy.toString());
+                }
             }
         }
+    }
+
+    public void newEnemy() {
+        boolean fireImmune = rand.nextBoolean();
+        boolean iceImmune = rand.nextBoolean();
+        boolean earthImmune = rand.nextBoolean();
+        int health = rand.nextInt(100) + 1;
+        int mana = rand.nextInt(100) + 1;
+
+        enemy = new Enemy(health, mana, fireImmune, iceImmune, earthImmune);
     }
 
     public void showMap() {

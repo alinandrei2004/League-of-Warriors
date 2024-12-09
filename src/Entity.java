@@ -6,7 +6,7 @@ public abstract class Entity implements Battle{
     Random rand = new Random();
     protected int health, maxHealth, mana, maxMana;
     protected ArrayList<Spell> abilities;
-    protected int nAbilities = rand.nextInt(3, 7);
+    protected int nAbilities;
     protected boolean fireImmune, iceImmune, earthImmune;
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
@@ -45,6 +45,7 @@ public abstract class Entity implements Battle{
     }
 
     public void generateAbilities() {
+        nAbilities = rand.nextInt(3, 7);
         for (int i = 0; i < nAbilities; i++) {
             int type = rand.nextInt(1, 4);
             int damage = rand.nextInt(15, 21);
