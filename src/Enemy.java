@@ -37,19 +37,23 @@ public class Enemy extends Entity {
     }
 
     @Override
-    public void regenH(int value) {
+    public int regenH() {
+        int value = rand.nextInt(10, 21);
         health += value;
         if (health > maxHealth) {
             health = maxHealth;
         }
+        return value;
     }
 
     @Override
-    public void regenM(int value) {
+    public int regenM() {
+        int value = rand.nextInt(10, 21);
         mana += value;
         if (mana > maxMana) {
             mana = maxMana;
         }
+        return value;
     }
 
     @Override

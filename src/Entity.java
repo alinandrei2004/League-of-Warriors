@@ -10,6 +10,7 @@ public abstract class Entity implements Battle{
     protected boolean fireImmune, iceImmune, earthImmune;
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
 
     public Entity(int health, int mana, boolean fireImmune, boolean iceImmune, boolean earthImmune) {
         this.health = health;
@@ -22,18 +23,22 @@ public abstract class Entity implements Battle{
         this.earthImmune = earthImmune;
     }
 
-    public void regenH(int value) {
+    public int regenH() {
+        int value = rand.nextInt(10, 21);
         health += value;
         if (health > maxHealth) {
             health = maxHealth;
         }
+        return value;
     }
 
-    public void regenM(int value) {
+    public int regenM() {
+        int value = rand.nextInt(10, 21);
         mana += value;
         if (mana > maxMana) {
             mana = maxMana;
         }
+        return value;
     }
 
     public int getHealth() {

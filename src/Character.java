@@ -22,33 +22,17 @@ public abstract class Character extends Entity{
         return xp;
     }
 
+    public void addXP(int xp) {
+        this.xp += xp;
+    }
+
     @Override
     public abstract void receiveDamage(int damage);
-//        boolean luck = Math.random() < 0.25;
-//        if (luck) {
-//            health -= damage / 2;
-//        } else {
-//            health -= damage;
-//        }
-//
-//        if (health <= 0) {
-//            health = 0;
-//        }
-//    }
 
     @Override
     public abstract int getDamage();
-//        boolean crit = Math.random() < 0.5;
-//        int baseDmg = (int) (strength * 0.5 + dexterity * 0.3 + charisma * 0.2);
-//        if (crit) {
-//            return baseDmg * 2;
-//        }
-//        return baseDmg;
-//    }
 
-//    public abstract void generateDamage();
-
-    void levelUp() {
+    public void levelUp() {
         xp += level * 5;
         level++;
         maxHealth += 10;
@@ -56,8 +40,15 @@ public abstract class Character extends Entity{
         strength += 2;
         charisma += 1;
         dexterity += 1;
-        System.out.println("Congrats! Now your level is: " + level);
+        System.out.println(GREEN + "Congrats! Now your level is: " + RESET + level);
 
+    }
+
+    public void doubleHeatlh() {
+        health *= 2;
+        if(health > maxHealth) {
+            health = maxHealth;
+        }
     }
 
     public String getName() {
