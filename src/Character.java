@@ -14,6 +14,14 @@ public abstract class Character extends Entity{
         this.level = level;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public int getXP() {
+        return xp;
+    }
+
     @Override
     public abstract void receiveDamage(int damage);
 //        boolean luck = Math.random() < 0.25;
@@ -41,6 +49,7 @@ public abstract class Character extends Entity{
 //    public abstract void generateDamage();
 
     void levelUp() {
+        xp += level * 5;
         level++;
         maxHealth += 10;
         maxMana += 5;
@@ -57,6 +66,6 @@ public abstract class Character extends Entity{
 
     @Override
     public String toString() {
-        return "Name: " + name + ", Health: " + health + ", Mana: " + mana + ", Strength: " + strength + ", Charisma: " + charisma + ", Dexterity: " + dexterity + abilities;
+        return "Name: " + name + ", Health: " + health + ", Mana: " + mana + ", Strength: " + strength + ", Charisma: " + charisma + ", Dexterity: " + dexterity;
     }
 }

@@ -8,7 +8,7 @@ public class Game {
     Random rand = new Random();
     private KeyHandler keyH = new KeyHandler();
     private Grid grid;
-    private Character player = new Warrior("GIGI", 10, 1, 90, 20, 50, 10, 2);
+    private Character player;
     private int EnemyHealth  = rand.nextInt(100) + 1;
     private int EnemyMana = rand.nextInt(100) + 1;
     private boolean EnemyFireImmune = rand.nextBoolean();
@@ -17,8 +17,8 @@ public class Game {
     private Enemy enemy = new Enemy(EnemyHealth, EnemyMana, EnemyFireImmune, EnemyIceImmune, EnemyEarthImmune);
     public static final String RESET = "\u001B[0m";
     public static final String BR_GREEN = "\u001B[92m";
-    public Game() {
-        addKeyListener(keyH);
+    public Game(Character player) {
+        this.player = player;
     }
 
     public void runHard() throws ImpossibleMove, NoAbilities {
@@ -87,10 +87,7 @@ public class Game {
             grid.showMap();
             move = (char)input.next().charAt(0);
         }
-
-    }
-
-    public void update() {
+        System.out.println("Enough for today! I will be back tomorrow!");
 
     }
 

@@ -31,7 +31,7 @@ public class Warrior extends Character {
 
     @Override
     public String toString() {
-        return "Name: " + name + ", Health: " + health + ", Mana: " + mana + ", Strength: " + strength + ", Charisma: " + charisma + ", Dexterity: " + dexterity + "; Immunity: Fire";
+        return "Name: " + name + ", Health: " + health + ", Mana: " + mana + ", Strength: " + strength + ", Charisma: " + charisma + ", Dexterity: " + dexterity + "; Immunity: Fire, " + "Level: " + super.getLevel() + ", Experience: " + super.getXP();
     }
 
 }

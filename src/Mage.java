@@ -8,6 +8,7 @@ public class Mage extends Character {
         boolean crit = Math.random() < 0.5;
         int baseDmg = (int) (strength * 0.2 + dexterity * 0.3 + charisma * 0.5);
         if (crit) {
+            System.out.println(RED + "The Mage feels powerful today!" + RESET);
             return baseDmg * 2;
         }
         return baseDmg;
@@ -25,5 +26,10 @@ public class Mage extends Character {
         if (health < 0) {
             health = 0;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Health: " + health + ", Mana: " + mana + ", Strength: " + strength + ", Charisma: " + charisma + ", Dexterity: " + dexterity + "; Immunity: Ice, " + "Level: " + super.getLevel() + ", Experience: " + super.getXP();
     }
 }

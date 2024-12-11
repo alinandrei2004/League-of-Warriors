@@ -23,4 +23,8 @@ public class Account {
     public Information getInformation() {
         return information;
     }
+
+    public ArrayList<Character> getCharacters() {
+        return characters;
+    }
 }

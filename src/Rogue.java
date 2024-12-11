@@ -8,6 +8,7 @@ public class Rogue extends Character{
         boolean crit = Math.random() < 0.5;
         int baseDmg = (int) (strength * 0.3 + dexterity * 0.5 + charisma * 0.2);
         if (crit) {
+            System.out.println(RED + "The Rogue feels powerful today!" + RESET);
             return baseDmg * 2;
         }
         return baseDmg;
@@ -25,5 +26,10 @@ public class Rogue extends Character{
         if (health < 0) {
             health = 0;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Health: " + health + ", Mana: " + mana + ", Strength: " + strength + ", Charisma: " + charisma + ", Dexterity: " + dexterity + "; Immunity: Earth, " + "Level: " + super.getLevel() + ", Experience: " + super.getXP();
     }
 }
