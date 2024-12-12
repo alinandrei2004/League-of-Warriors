@@ -57,13 +57,32 @@ public class Main {
                 i++;
                 System.out.println(i + ") " + c.toString());
             }
-            int nCharacter = input.nextInt();
+            int nCharacter = 0;
+
+            boolean valid = false;
+            while(!valid) {
+                try {
+                    nCharacter = input.nextInt();
+                    while (nCharacter > characters.size()) {
+                        System.out.println("Wrong number");
+                        nCharacter = input.nextInt();
+                    }
+                    valid = true;
+                } catch (Exception e) {
+                    System.out.println("Wrong input");
+                    input.nextLine();
+                }
+            }
             Character selectedCharacter = characters.get(nCharacter - 1);
 
             Game game = new Game(selectedCharacter);
             game.run();
             System.out.println("Press q to quit or any other key to continue");
             q = input.next().charAt(0);
+            while(!characters.isEmpty()) {
+                characters.remove(0);
+            }
+            i = 0;
         }
     }
 }

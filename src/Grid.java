@@ -103,7 +103,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         Cell playerCell = rowPlayer.get(playerY);
         playerCell.setPVisited(true);
         playerCell.setVisited(true);
-        player.generateAbilities(playerDmg);
+//        player.generateAbilities(playerDmg);
 
         playerCell.setType(CellEntityType.PLAYER);
         currentCell = playerCell;
@@ -194,7 +194,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 
                 try {
                     fight(cell);
-                } catch (NoAbilities e) {
+                } catch (NoAbilities | WrongInput e) {
 //                    throw new RuntimeException(e);
                 }
             }
@@ -254,7 +254,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 
                 try {
                     fight(cell);
-                } catch (NoAbilities e) {
+                } catch (NoAbilities | WrongInput e) {
 //                    throw new RuntimeException(e);
                 }
             }
@@ -314,7 +314,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 
                 try {
                     fight(cell);
-                } catch (NoAbilities e) {
+                } catch (NoAbilities | WrongInput e) {
 //                    throw new RuntimeException(e);
                 }
             }
@@ -374,7 +374,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 
                 try {
                     fight(cell);
-                } catch (NoAbilities e) {
+                } catch (NoAbilities | WrongInput e) {
 //                    throw new RuntimeException(e);
                 }
             }
@@ -393,9 +393,18 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         return grid;
     }
 
-    public void fight(Cell cell) throws NoAbilities {
+    public void fight(Cell cell) throws NoAbilities, WrongInput {
+
+        while(!player.abilities.isEmpty()) {
+            player.abilities.remove(0);
+        }
+        player.generateAbilities(playerDmg);
         System.out.println("You found an enemy!");
         System.out.println(enemy.toString());
+
+        while(!enemy.abilities.isEmpty()) {
+            enemy.abilities.remove(0);
+        }
 
         enemyDmg = enemy.getDamage();
         enemy.generateAbilities(enemyDmg);
@@ -406,8 +415,24 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             System.out.println("Choose your attack:");
             System.out.println("1) Normal attack");
             System.out.println("2) Use ability");
+            int i = 0;
+            boolean valid = false;
 
-            int i = input.nextInt();
+            while (!valid) {
+                try {
+                    i = input.nextInt();
+                    valid = true;
+                    while(i != 1 && i != 2) {
+                        System.out.println("Wrong number");
+                        i = input.nextInt();
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please enter a valid number.");
+                    input.nextLine();
+                }
+            }
+
+
 
             switch (i) {
                 case 1:
