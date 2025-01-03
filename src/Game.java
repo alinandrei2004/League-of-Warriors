@@ -6,7 +6,6 @@ import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
 public class Game {
 
     Random rand = new Random();
-    private KeyHandler keyH = new KeyHandler();
     private Grid grid;
     private Character player;
     private int EnemyHealth  = rand.nextInt(100) + 1;
