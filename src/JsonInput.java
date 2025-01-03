@@ -93,7 +93,13 @@ public class JsonInput {
                 }
 
                 // Create Information and Account objects
-                Information information = new Information(credentials, favoriteGames, name, country);
+//                Information information = new Information(credentials, favoriteGames, name, country);
+                Information information = new Information.Builder()
+                        .addCredentials(credentials)
+                        .addFavoriteGames(favoriteGames)
+                        .addName(name)
+                        .addCountry(country)
+                        .build();
                 Account account = new Account(characters, gamesNumber, information);
                 accounts.add(account);
             }
