@@ -484,16 +484,23 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                     }
                     System.out.println(CYAN + "[Normal]:" + RESET + " Damage: " + enemyDmg);
                     i = input.nextInt();
-                    if(player.abilities.isEmpty()) {
-                        try {
-                            throw new NoAbilities("You don't have any abilities left!");
-                        } catch (NoAbilities e) {
-//                        throw new RuntimeException(e);
-                            System.out.println("You don't have any abilities left!");
-                            continue;
+                    Spell currentAbility;
+                    try {
+                        while(i < 0 || i > player.nAbilities) {
+                            throw new WrongInput("Invalid input. Please enter a valid number.");
                         }
+                        if (player.abilities.isEmpty()) {
+                            throw new NoAbilities("You don't have any abilities left!");
+                        }
+                        currentAbility = player.abilities.get(i);
+                    } catch (WrongInput e) {
+                        System.out.println("You don't have that many spells");
+                        continue;
+                    } catch (NoAbilities e) {
+                        System.out.println("You don't have any abilities left!");
+                        continue;
                     }
-                    Spell currentAbility = player.abilities.get(i);
+
                     if (currentAbility instanceof Fire && enemy.fireImmune) {
                         System.out.println("The enemy is immune to fire!");
                         player.abilities.remove(i);
