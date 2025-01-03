@@ -75,7 +75,7 @@ public class Main {
             }
             Character selectedCharacter = characters.get(nCharacter - 1);
 
-            Game game = new Game(selectedCharacter);
+            Game game = Game.StartGame(selectedCharacter);
             game.run();
             System.out.println("Press q to quit or any other key to continue");
             q = input.next().charAt(0);

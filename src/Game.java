@@ -1,8 +1,6 @@
 import java.util.Random;
 import java.util.Scanner;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
-
 public class Game {
 
     Random rand = new Random();
@@ -16,8 +14,18 @@ public class Game {
     private Enemy enemy = new Enemy(EnemyHealth, EnemyMana, EnemyFireImmune, EnemyIceImmune, EnemyEarthImmune);
     public static final String RESET = "\u001B[0m";
     public static final String BR_GREEN = "\u001B[92m";
-    public Game(Character player) {
+    public static Game finalGame;
+
+    // Constructorul clasei game
+    private Game(Character player) {
         this.player = player;
+    }
+
+    public static Game StartGame(Character player) {
+        if (finalGame == null) {
+            finalGame = new Game(player);
+        }
+        return finalGame;
     }
 
     public void runHard() throws ImpossibleMove, NoAbilities {

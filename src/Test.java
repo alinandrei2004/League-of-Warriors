@@ -72,7 +72,7 @@ public class Test {
         int nCharacter = input.nextInt();
         Character selectedCharacter = characters.get(nCharacter - 1);
 
-        Game game = new Game(selectedCharacter);
+        Game game = Game.StartGame(selectedCharacter);
         game.runHard();
     }
 }
