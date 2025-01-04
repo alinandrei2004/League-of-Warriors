@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public abstract class Spell {
+public abstract class Spell implements Visitor<Entity>{
 
     Random rand = new Random();
     protected int AbilityDamage, manaCost;
@@ -35,5 +35,10 @@ public abstract class Spell {
             return GREEN + "[Earth]:" + RESET + "  Damage: " + AbilityDamage + ", Mana cost: " + manaCost;
         }
         return "";
+    }
+
+    @Override
+    public void visit(Entity entity) {
+        entity.receiveDamage(AbilityDamage);
     }
 }

@@ -7,8 +7,8 @@ public class Enemy extends Entity {
 //    private int nAbilities = rand.nextInt( 3, 6) + 1;
 //    private ArrayList<Spell> abilities = new ArrayList<>();
 
-    public Enemy(int health, int mana, boolean fireImmune, boolean iceImmune, boolean earthImmune) {
-        super(health, mana, fireImmune, iceImmune, earthImmune);
+    public Enemy(int maxHealth, int maxMana, int health, int mana, boolean fireImmune, boolean iceImmune, boolean earthImmune) {
+        super(maxHealth, maxMana, health, mana, fireImmune, iceImmune, earthImmune);
     }
 
     public void receiveDamage(int damage) {
@@ -60,7 +60,9 @@ public class Enemy extends Entity {
     public void useAbility(Spell spell, Entity target) {
         if (mana >= spell.getManaCost()) {
             mana -= spell.getManaCost();
-            target.receiveDamage(spell.getDamage());
+//            target.receiveDamage(spell.getDamage());
+        } else {
+            System.out.println(RED + "Not enough mana!" + RESET);
         }
     }
 }

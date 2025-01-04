@@ -6,12 +6,14 @@ public class Game {
     Random rand = new Random();
     private Grid grid;
     private Character player;
-    private int EnemyHealth  = rand.nextInt(100) + 1;
-    private int EnemyMana = rand.nextInt(100) + 1;
+    private int EnemyHealth  = rand.nextInt(50, 100) + 1;
+    private int EnemyMana = rand.nextInt(50, 100) + 1;
+    private int maxEnemyHealth = 100;
+    private int maxEnemyMana = 100;
     private boolean EnemyFireImmune = rand.nextBoolean();
     private boolean EnemyIceImmune = rand.nextBoolean();
     private boolean EnemyEarthImmune = rand.nextBoolean();
-    private Enemy enemy = new Enemy(EnemyHealth, EnemyMana, EnemyFireImmune, EnemyIceImmune, EnemyEarthImmune);
+    private Enemy enemy = new Enemy(maxEnemyHealth, maxEnemyMana, EnemyHealth, EnemyMana, EnemyFireImmune, EnemyIceImmune, EnemyEarthImmune);
     public static final String RESET = "\u001B[0m";
     public static final String BR_GREEN = "\u001B[92m";
     public static Game finalGame;
@@ -97,6 +99,4 @@ public class Game {
         System.out.println("Enough for today! I will be back tomorrow!");
 
     }
-
-
 }

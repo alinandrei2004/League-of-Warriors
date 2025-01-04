@@ -1,6 +1,6 @@
 public class Rogue extends Character{
-    public Rogue(String name, int experience, int level, int health, int mana, int strength, int charisma, int dexterity) {
-        super(name, experience, level, health, mana, strength, charisma, dexterity, true, false, false);
+    public Rogue(int maxHealth, int maxMana ,String name, int experience, int level, int health, int mana, int strength, int charisma, int dexterity) {
+        super(maxHealth, maxMana, name, experience, level, health, mana, strength, charisma, dexterity, true, false, false);
     }
 
     @Override

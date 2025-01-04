@@ -476,7 +476,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                     for (Spell spell : player.abilities) {
                         System.out.println(spell.toString());
                     }
-                    System.out.println(CYAN + "[Normal]:" + RESET + " Damage: " + playerDmg);
+//                    System.out.println(CYAN + "[Normal]:" + RESET + " Damage: " + playerDmg);
 
                     System.out.println("The enemy has " + enemy.nAbilities + " abilities:");
                     for (Spell spell : enemy.abilities) {
@@ -515,6 +515,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                         player.nAbilities--;
                     } else {
                         player.useAbility(player.abilities.get(i), enemy);
+                        enemy.accept(player.abilities.get(i));
                         System.out.println("You used " + player.abilities.get(i).toString());
                         player.abilities.remove(i);
                         player.nAbilities--;
@@ -552,6 +553,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                                     enemy.nAbilities--;
                                 } else {
                                     enemy.useAbility(enemy.abilities.get(enemyAbility), player);
+                                    player.accept(enemy.abilities.get(enemyAbility));
                                     System.out.println("The enemy used " + enemy.abilities.get(enemyAbility).toString());
                                     enemy.abilities.remove(enemyAbility);
                                     enemy.nAbilities--;
@@ -591,10 +593,12 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         boolean fireImmune = rand.nextBoolean();
         boolean iceImmune = rand.nextBoolean();
         boolean earthImmune = rand.nextBoolean();
-        int health = rand.nextInt(100) + 1;
-        int mana = rand.nextInt(100) + 1;
+        int health = rand.nextInt(50,100) + 1;
+        int mana = rand.nextInt(50, 100) + 1;
+        int maxEnemyHealth = rand.nextInt(player.health - 20, player.health + 20);
+        int maxEnemyMana = rand.nextInt(player.mana - 20, player.mana + 20);
 
-        enemy = new Enemy(health, mana, fireImmune, iceImmune, earthImmune);
+        enemy = new Enemy(maxEnemyHealth, maxEnemyMana, health, mana, fireImmune, iceImmune, earthImmune);
     }
 
     public void showMap() {

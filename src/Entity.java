@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public abstract class Entity implements Battle{
+public abstract class Entity implements Battle, Element<Entity> {
 
     Random rand = new Random();
     protected int health, maxHealth, mana, maxMana;
@@ -12,12 +12,12 @@ public abstract class Entity implements Battle{
     public static final String RED = "\u001B[31m";
     public static final String GREEN = "\u001B[32m";
 
-    public Entity(int health, int mana, boolean fireImmune, boolean iceImmune, boolean earthImmune) {
+    public Entity(int maxHealth, int maxMana, int health, int mana, boolean fireImmune, boolean iceImmune, boolean earthImmune) {
         this.health = health;
         this.mana = mana;
         this.abilities = new ArrayList<>();
-        this.maxHealth = 100;
-        this.maxMana = 100;
+        this.maxHealth = maxHealth;
+        this.maxMana = maxMana;
         this.fireImmune = fireImmune;
         this.iceImmune = iceImmune;
         this.earthImmune = earthImmune;
@@ -75,9 +75,14 @@ public abstract class Entity implements Battle{
     public void useAbility(Spell spell, Entity target) {
         if (mana >= spell.getManaCost()) {
             mana -= spell.getManaCost();
-            target.receiveDamage(spell.getDamage());
+//            target.receiveDamage(spell.getDamage());
         } else {
             System.out.println(RED + "Not enough mana!" + RESET);
         }
+    }
+
+    @Override
+    public void accept(Visitor<Entity> visitor) {
+        visitor.visit(this);
     }
 }

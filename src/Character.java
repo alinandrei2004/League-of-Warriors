@@ -4,8 +4,8 @@ public abstract class Character extends Entity{
     protected int xp, level;
     protected int strength, charisma, dexterity, damage;
 
-    public Character(String name, int experience, int level, int health, int mana, int strength, int charisma, int dexterity, boolean fireImmune, boolean iceImmune, boolean earthImmune) {
-        super(health, mana, fireImmune, iceImmune, earthImmune);
+    public Character(int maxPlayerHealth, int maxPlayerMana, String name, int experience, int level, int health, int mana, int strength, int charisma, int dexterity, boolean fireImmune, boolean iceImmune, boolean earthImmune) {
+        super(maxPlayerHealth, maxPlayerMana, health, mana, fireImmune, iceImmune, earthImmune);
         this.name = name;
         this.strength = strength;
         this.charisma = charisma;
