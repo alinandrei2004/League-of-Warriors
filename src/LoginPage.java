@@ -14,26 +14,46 @@ public class LoginPage extends JFrame{
         setTitle("League of Warriors");
         setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(3, 1));
+        setLayout(new GridLayout(4, 1));
 
         JLabel title = new JLabel("Login", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 20));
         add(title, BorderLayout.NORTH);
 
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(3, 2, 10, 10));
+        inputPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
 
         JLabel emailLabel = new JLabel("Email: ");
-        emailField = new JTextField();
-        JLabel passLabel = new JLabel("Password: ");
-        passField = new JPasswordField();
+        emailLabel.setHorizontalAlignment(JLabel.RIGHT);
 
-        inputPanel.add(emailLabel);
-        inputPanel.add(emailField);
-        inputPanel.add(passLabel);
-        inputPanel.add(passField);
+        emailField = new JTextField();
+        emailField.setPreferredSize(new Dimension(300, 30));
+
+        JLabel passLabel = new JLabel("Password: ");
+        passLabel.setHorizontalAlignment(JLabel.RIGHT);
+
+        passField = new JPasswordField();
+        passField.setPreferredSize(new Dimension(300, 30));
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        inputPanel.add(emailLabel, gbc);
+
+        gbc.gridx = 1;
+        inputPanel.add(emailField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        inputPanel.add(passLabel, gbc);
+
+        gbc.gridx = 1;
+        inputPanel.add(passField, gbc);
 
         add(inputPanel, BorderLayout.CENTER);
+
 
         JPanel buttonPanel = new JPanel();
         loginButton = new JButton("Login");
