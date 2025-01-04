@@ -1,8 +1,14 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws ImpossibleMove, NoAbilities {
+
+        SwingUtilities.invokeLater(() -> {
+            LoginPage loginPage = new LoginPage();
+            loginPage.setVisible(true);
+        });
         String email;
         String password;
         Account selectedAccount = null;
