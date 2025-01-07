@@ -90,6 +90,7 @@ public class LoginPage extends JFrame{
                     selectedAccount = account;
                     JOptionPane.showMessageDialog(this, "Welcome " + account.getInformation().getName() + "!");
                     dispose();
+                    new CharacterSelection(account).setVisible(true);
                     break;
                 } else {
                     message.setForeground(Color.RED);
