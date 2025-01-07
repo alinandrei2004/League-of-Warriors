@@ -58,6 +58,10 @@ public class CharacterSelection extends JFrame {
 
                 if (res == JOptionPane.OK_OPTION) {
                     dispose();
+
+                    Character selectedCharacter = characters.get(i);
+                    Grid grid = Grid.gridGenerator(5, 5, selectedCharacter, new Enemy(100, 100, 100, 100, true, true, false));
+                    SwingUtilities.invokeLater(() -> new Map(grid).setVisible(true));
                 }
             }
         });

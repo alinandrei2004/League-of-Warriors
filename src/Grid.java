@@ -157,6 +157,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         currentCell = this.getCurrentCell();
         int x = currentCell.getX();
         int y = currentCell.getY();
+        System.out.printf(x + " " + y);
         if (y + 1 < cols) {
             ArrayList<Cell> row = this.get(x);
             Cell lastCell = row.get(y);
@@ -217,6 +218,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         currentCell = this.getCurrentCell();
         int x = currentCell.getX();
         int y = currentCell.getY();
+        System.out.printf(x + " " + y);
         if (y - 1 >= 0) {
             ArrayList<Cell> row = this.get(x);
             Cell lastCell = row.get(y);
@@ -276,6 +278,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         currentCell = this.getCurrentCell();
         int x = currentCell.getX();
         int y = currentCell.getY();
+        System.out.printf(x + " " + y);
         if (x - 1 >= 0) {
             ArrayList<Cell> row = this.get(x - 1);
             ArrayList<Cell> lastRow = this.get(x);
@@ -336,6 +339,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         currentCell = this.getCurrentCell();
         int x = currentCell.getX();
         int y = currentCell.getY();
+        System.out.printf(x + " " + y);
         if (x + 1 < rows) {
             ArrayList<Cell> row = this.get(x + 1);
             ArrayList<Cell> lastRow = this.get(x);
@@ -631,5 +635,13 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             System.out.println();
         }
         System.out.println();
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
     }
 }
