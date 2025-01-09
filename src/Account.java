@@ -4,6 +4,7 @@ public class Account {
     private Information information;
     private ArrayList<Character> characters;
     private int nGames;
+    public int nKills = 0;
 
     public Account(ArrayList<Character> characters, int nGames, Information information) {
         this.information = information;

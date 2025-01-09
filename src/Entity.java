@@ -81,6 +81,10 @@ public abstract class Entity implements Battle, Element<Entity> {
         }
     }
 
+    public void wasteAbility(Spell spell) {
+        mana -= spell.getManaCost();
+    }
+
     @Override
     public void accept(Visitor<Entity> visitor) {
         visitor.visit(this);

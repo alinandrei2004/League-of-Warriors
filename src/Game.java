@@ -17,22 +17,26 @@ public class Game {
     public static final String RESET = "\u001B[0m";
     public static final String BR_GREEN = "\u001B[92m";
     public static Game finalGame;
+    private Account account;
+    private Character character;
 
     // Constructorul clasei game
-    private Game(Character player) {
+    private Game(Character player, Account account, Character character) {
         this.player = player;
+        this.account = account;
+        this.character = character;
     }
 
     public static Game StartGame(Character player) {
         if (finalGame == null) {
-            finalGame = new Game(player);
+            finalGame = new Game(player, null, null);
         }
         return finalGame;
     }
 
     public void runHard() throws ImpossibleMove, NoAbilities {
         Scanner input = new Scanner(System.in);
-        grid = Grid.gridHard(5, 5, player, enemy);
+        grid = Grid.gridHard(5, 5, player, enemy, account, character);
         System.out.println(player.toString());
         grid.showMap();
         char move = (char)input.next().charAt(0);
@@ -68,7 +72,7 @@ public class Game {
 //        player = new Character(100, 100);
         int x = rand.nextInt(3, 10) + 1;
         int y = rand.nextInt(3, 10) + 1;
-        grid = Grid.gridGenerator(x, y, player, enemy);
+        grid = Grid.gridGenerator(x, y, player, enemy, account, character);
         System.out.println(player.toString());
 //        System.out.println(grid.toString());
         grid.showMap();

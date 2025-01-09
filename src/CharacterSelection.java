@@ -3,8 +3,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class CharacterSelection extends JFrame {
+    private Random rand = new Random();
+    private Character selectedCharacter;
 
     public CharacterSelection(Account account) {
         setTitle("League of Warriors");
@@ -43,6 +46,10 @@ public class CharacterSelection extends JFrame {
 
     private JButton getJButton(Account account, ArrayList<Character> characters, int i) {
         Character character = characters.get(i);
+        if (character.getHealth() <= 0) {
+            int health = 100 + character.getLevel() * 5;
+            character.setHealth(health);
+        }
         JButton characterButton = new JButton(character.getName());
         characterButton.addActionListener(new ActionListener() {
             @Override
@@ -59,12 +66,26 @@ public class CharacterSelection extends JFrame {
                 if (res == JOptionPane.OK_OPTION) {
                     dispose();
 
-                    Character selectedCharacter = characters.get(i);
-                    Grid grid = Grid.gridGenerator(5, 5, selectedCharacter, new Enemy(100, 100, 100, 100, true, true, false));
-                    SwingUtilities.invokeLater(() -> new Map(grid).setVisible(true));
+                    selectedCharacter = characters.get(i);
+                    account.nKills = 0;
+
+                    boolean fireImmune = rand.nextBoolean();
+                    boolean iceImmune = rand.nextBoolean();
+                    boolean earthImmune = rand.nextBoolean();
+                    int health = rand.nextInt(50,100) + 1;
+                    int mana = rand.nextInt(50, 100) + 1;
+                    int maxEnemyHealth = rand.nextInt(selectedCharacter.health - 20, selectedCharacter.health + 20);
+                    int maxEnemyMana = rand.nextInt(selectedCharacter.mana - 20, selectedCharacter.mana + 20);
+                    Enemy enemy = new Enemy(maxEnemyHealth, maxEnemyMana, health, mana, fireImmune, iceImmune, earthImmune);
+                    Grid grid = Grid.gridGenerator(5, 5, selectedCharacter, enemy, account, selectedCharacter);
+                    SwingUtilities.invokeLater(() -> new Map(grid, account, selectedCharacter).setVisible(true));
                 }
             }
         });
         return characterButton;
+    }
+
+    public Character getSelectedCharacter() {
+        return selectedCharacter;
     }
 }

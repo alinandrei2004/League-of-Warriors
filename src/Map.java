@@ -4,30 +4,42 @@ import java.awt.*;
 public class Map extends JFrame {
 
     private Grid grid;
-    private JPanel gridPanel;
+    private JPanel gridPanel, statsPanel;
+    private Account account;
+    private Character selectedCharacter;
 
-    public Map(Grid grid) {
+    // JLabel references for stats
+    private JLabel levelValue;
+    private JLabel xpValue;
+    private JLabel healthValue;
+    private JLabel manaValue;
+
+    public Map(Grid grid, Account account, Character selectedCharacter) {
         this.grid = grid;
+        this.account = account;
+        this.selectedCharacter = selectedCharacter;
 
         setTitle("League of Warriors");
-        setSize(800, 800); // Adjusted size to fit grid and controls
+        setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Title Label
         JLabel title = new JLabel("Game Map", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 24));
         add(title, BorderLayout.NORTH);
 
-        // Grid Panel
         gridPanel = new JPanel();
-        gridPanel.setLayout(new GridBagLayout()); // Add spacing between cells
+        gridPanel.setLayout(new GridBagLayout());
         add(gridPanel, BorderLayout.CENTER);
 
-        // Create the grid
+        statsPanel = new JPanel();
+        statsPanel.setLayout(new GridBagLayout());
+        add(statsPanel, BorderLayout.WEST);
+
+        initializeStatsPanel();
+
         createGrid();
 
-        // Controls Panel
         JPanel controlsPanel = new JPanel();
         controlsPanel.setLayout(new FlowLayout());
 
@@ -36,24 +48,75 @@ public class Map extends JFrame {
         JButton eastButton = new JButton("East");
         JButton westButton = new JButton("West");
 
-        // Add buttons to control panel
         controlsPanel.add(northButton);
         controlsPanel.add(southButton);
         controlsPanel.add(eastButton);
         controlsPanel.add(westButton);
 
-        // Add controls panel below grid
         add(controlsPanel, BorderLayout.SOUTH);
-
-        // Action listeners for movement
         northButton.addActionListener(e -> move("NORTH"));
         southButton.addActionListener(e -> move("SOUTH"));
         eastButton.addActionListener(e -> move("EAST"));
         westButton.addActionListener(e -> move("WEST"));
     }
 
+    private void initializeStatsPanel() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        Font fieldFont = new Font("Arial", Font.PLAIN, 18);
+
+        JLabel statsLabel = new JLabel("Stats", JLabel.LEFT);
+        statsLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        statsPanel.add(statsLabel, gbc);
+
+        gbc.gridy++;
+        JLabel levelLabel = new JLabel("Level", JLabel.LEFT);
+        JTextField levelField = new JTextField(String.valueOf(selectedCharacter.getLevel()));
+        levelField.setEditable(false);
+        levelField.setFont(fieldFont);
+        statsPanel.add(levelLabel, gbc);
+        gbc.gridx++;
+        statsPanel.add(levelField, gbc);
+        gbc.gridx = 0;
+
+        gbc.gridy++;
+        JLabel xpLabel = new JLabel("Experience", JLabel.LEFT);
+        JTextField xpField = new JTextField(String.valueOf(selectedCharacter.getXP()));
+        xpField.setEditable(false);
+        xpField.setFont(fieldFont);
+        statsPanel.add(xpLabel, gbc);
+        gbc.gridx++;
+        statsPanel.add(xpField, gbc);
+        gbc.gridx = 0;
+
+        gbc.gridy++;
+        JLabel healthLabel = new JLabel("Health", JLabel.LEFT);
+        JTextField healthField = new JTextField(String.valueOf(selectedCharacter.getHealth()));
+        healthField.setEditable(false);
+        healthField.setFont(fieldFont);
+        statsPanel.add(healthLabel, gbc);
+        gbc.gridx++;
+        statsPanel.add(healthField, gbc);
+        gbc.gridx = 0;
+
+        gbc.gridy++;
+        JLabel manaLabel = new JLabel("Mana", JLabel.LEFT);
+        JTextField manaField = new JTextField(String.valueOf(selectedCharacter.getMana()));
+        manaField.setEditable(false);
+        manaField.setFont(fieldFont);
+        statsPanel.add(manaLabel, gbc);
+        gbc.gridx++;
+        statsPanel.add(manaField, gbc);
+
+        statsPanel.revalidate();
+        statsPanel.repaint();
+    }
+
     private void createGrid() {
-        gridPanel.removeAll(); // Clear the panel before re-drawing
+        gridPanel.removeAll();
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(2, 2, 2, 2);
@@ -63,15 +126,13 @@ public class Map extends JFrame {
                 Cell cell = grid.get(i).get(j);
 
                 JButton cellButton = new JButton();
-                cellButton.setPreferredSize(new Dimension(50, 50)); // Set fixed button size
-                cellButton.setEnabled(false); // Disable interaction
+                cellButton.setPreferredSize(new Dimension(50, 50));
+                cellButton.setEnabled(false);
                 cellButton.setBackground(getCellColor(cell));
 
-                // Set grid position
-                gbc.gridx = j; // Column
-                gbc.gridy = i; // Row
+                gbc.gridx = j;
+                gbc.gridy = i;
 
-                // Add the button to the grid panel
                 gridPanel.add(cellButton, gbc);
             }
         }
@@ -99,19 +160,31 @@ public class Map extends JFrame {
     private void move(String direction) {
         switch (direction) {
             case "NORTH":
-                grid = grid.goNorth(grid);
+                grid = grid.goNorthGUI(grid);
                 break;
             case "SOUTH":
-                grid = grid.goSouth(grid);
+                grid = grid.goSouthGUI(grid);
                 break;
             case "EAST":
-                grid = grid.goEast(grid);
+                grid = grid.goEastGUI(grid);
                 break;
             case "WEST":
-                grid = grid.goWest(grid);
+                grid = grid.goWestGUI(grid);
                 break;
         }
 
-        createGrid(); // Refresh the grid after moving
+        updateStatsPanel();
+        createGrid();
+    }
+
+    private void updateStatsPanel() {
+        levelValue.setText(String.valueOf(selectedCharacter.getLevel()));
+        xpValue.setText(String.valueOf(selectedCharacter.getXP()));
+        healthValue.setText(String.valueOf(selectedCharacter.getHealth()));
+        manaValue.setText(String.valueOf(selectedCharacter.getMana()));
+
+        statsPanel.revalidate();
+        statsPanel.repaint();
     }
 }
+

@@ -10,6 +10,8 @@ public class LoginPage extends JFrame{
     private JButton loginButton;
     private JLabel message;
 
+    private Account account;
+
     public LoginPage() {
         setTitle("League of Warriors");
         setSize(500, 500);
@@ -91,6 +93,7 @@ public class LoginPage extends JFrame{
                     JOptionPane.showMessageDialog(this, "Welcome " + account.getInformation().getName() + "!");
                     dispose();
 
+                    this.account = account;
                     new CharacterSelection(account).setVisible(true);
                     break;
                 } else {

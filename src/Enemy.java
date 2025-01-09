@@ -23,7 +23,7 @@ public class Enemy extends Entity {
     }
 
     public int getDamage() {
-        int damage = rand.nextInt(10) + 1;
+        int damage = rand.nextInt(20,40) + 1;
         boolean chance = Math.random() < 0.5;
         if (chance) {
             System.out.println(RED + "The Enemy feels powerful today" + RESET);

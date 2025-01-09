@@ -55,6 +55,10 @@ public abstract class Character extends Entity{
         return name;
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
     @Override
     public String toString() {
         return "Name: " + name + ", Health: " + health + ", Mana: " + mana + ", Strength: " + strength + ", Charisma: " + charisma + ", Dexterity: " + dexterity;

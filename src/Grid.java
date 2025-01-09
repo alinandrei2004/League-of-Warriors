@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,6 +13,8 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
     private static Enemy enemy;
     private static Cell currentCell = new Cell(0, 0, CellEntityType.PLAYER);
     private static int playerDmg, enemyDmg;
+    private Account account;
+    private Character selectedCharacter;
 
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
@@ -20,19 +23,29 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
     public static final String BLUE = "\u001B[34m";
     public static final String YELLOW = "\u001B[33m";
 
-    private Grid(int rows, int cols, Character player, Enemy enemy) {
+    private Grid(int rows, int cols, Character player, Enemy enemy, Account account, Character selectedCharacter) {
         this.rows = rows;
         this.cols = cols;
         this.player = player;
         this.enemy = enemy;
+        this.account = account;
+        this.selectedCharacter = selectedCharacter;
+    }
+
+    public Character getPlayer() {
+        return player;
+    }
+
+    public Enemy getEnemy() {
+        return enemy;
     }
 
     public Cell getCurrentCell() {
         return currentCell;
     }
 
-    public static Grid gridHard(int rows, int cols, Character player, Enemy enemy) {
-        Grid grid = new Grid(rows, cols, player, enemy);
+    public static Grid gridHard(int rows, int cols, Character player, Enemy enemy, Account account, Character selectedCharacter) {
+        Grid grid = new Grid(rows, cols, player, enemy, account, selectedCharacter);
         playerDmg = player.getDamage();
         for (int i = 0; i < rows; i++) {
             ArrayList<Cell> row = new ArrayList<>();
@@ -81,8 +94,8 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
         return grid;
     }
 
-    public static Grid gridGenerator(int rows, int cols, Character player, Enemy enemy) {
-        Grid grid = new Grid(rows, cols, player, enemy);
+    public static Grid gridGenerator(int rows, int cols, Character player, Enemy enemy, Account account, Character selectedCharacter) {
+        Grid grid = new Grid(rows, cols, player, enemy, account, selectedCharacter);
         Random rand = new Random();
         playerDmg = player.getDamage();
 
@@ -186,7 +199,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 //                System.exit(0);
                 int newRows = rand.nextInt(3, 10) + 1;
                 int newCols = rand.nextInt(3, 10) + 1;
-                Grid newGrid = gridGenerator(newRows, newCols, player, enemy);
+                Grid newGrid = gridGenerator(newRows, newCols, player, enemy, account, selectedCharacter);
                 grid = newGrid;
             } else if (cell.getType() == CellEntityType.ENEMY) {
                 if (enemy.getHealth() <= 0) {
@@ -247,7 +260,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 //                System.exit(0);
                 int newRows = rand.nextInt(3, 10) + 1;
                 int newCols = rand.nextInt(3, 10) + 1;
-                Grid newGrid = gridGenerator(newRows, newCols, player, enemy);
+                Grid newGrid = gridGenerator(newRows, newCols, player, enemy, account, selectedCharacter);
                 grid = newGrid;
             } else if (cell.getType() == CellEntityType.ENEMY) {
                 if (enemy.getHealth() <= 0) {
@@ -308,7 +321,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 //                System.exit(0);
                 int newRows = rand.nextInt(3, 10) + 1;
                 int newCols = rand.nextInt(3, 10) + 1;
-                Grid newGrid = gridGenerator(newRows, newCols, player, enemy);
+                Grid newGrid = gridGenerator(newRows, newCols, player, enemy, account, selectedCharacter);
                 grid = newGrid;
             } else if (cell.getType() == CellEntityType.ENEMY) {
                 if (enemy.getHealth() <= 0) {
@@ -369,7 +382,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 //                System.exit(0);
                 int newRows = rand.nextInt(3, 10) + 1;
                 int newCols = rand.nextInt(3, 10) + 1;
-                Grid newGrid = gridGenerator(newRows, newCols, player, enemy);
+                Grid newGrid = gridGenerator(newRows, newCols, player, enemy, account, selectedCharacter);
                 grid = newGrid;
             } else if (cell.getType() == CellEntityType.ENEMY) {
                 if (enemy.getHealth() <= 0) {
@@ -396,6 +409,203 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 
         return grid;
     }
+
+    public Grid goEastGUI(Grid grid) {
+        currentCell = this.getCurrentCell();
+        int x = currentCell.getX();
+        int y = currentCell.getY();
+        System.out.printf(x + " " + y);
+        if (y + 1 < cols) {
+            ArrayList<Cell> row = this.get(x);
+            Cell lastCell = row.get(y);
+            Cell cell = row.get(y + 1);
+            cell.setPVisited(true);
+            cell.setVisited(true);
+            lastCell.setType(CellEntityType.VOID);
+            lastCell.setPVisited(false);
+
+            this.currentCell = cell;
+
+//            System.out.println(player.toString());
+
+            if (cell.getType() == CellEntityType.VOID) {
+//                System.out.println("You are traveling through the wilderness!");
+            } else if (cell.getType() == CellEntityType.SANCTUARY) {
+//                System.out.println("You found a sanctuary!");
+//                System.out.println("You healed for " + RED + player.regenH() + " health " + RESET + "and " + BLUE + player.regenM() + " mana!" + RESET);
+                JOptionPane.showMessageDialog(null, "You found a sanctuary!\nYou healed for " +
+                        player.regenH() + " health and " + player.regenM() + " mana!");
+            } else if (cell.getType() == CellEntityType.PORTAL) {
+//                System.out.println("You found the portal!");
+                JOptionPane.showMessageDialog(null, "You found the portal!");
+                player.levelUp();
+                int newRows = rand.nextInt(3, 10) + 1;
+                int newCols = rand.nextInt(3, 10) + 1;
+                Grid newGrid = gridGenerator(newRows, newCols, player, enemy, account, selectedCharacter);
+                grid = newGrid;
+            } else if (cell.getType() == CellEntityType.ENEMY) {
+                if (enemy.getHealth() <= 0) {
+                    newEnemy();
+                }
+
+                BattleGUI battle = new BattleGUI(player, enemy, currentCell, account, selectedCharacter);
+                battle.setVisible(true);
+
+            }
+        } else {
+            try {
+                throw new ImpossibleMove("You can't go east");
+            } catch (ImpossibleMove e) {
+                JOptionPane.showMessageDialog(null, "You can't go east");
+            }
+        }
+
+        return grid;
+    }
+
+    public Grid goWestGUI(Grid grid) {
+        currentCell = this.getCurrentCell();
+        int x = currentCell.getX();
+        int y = currentCell.getY();
+        System.out.printf(x + " " + y);
+        if (y - 1 >= 0) {
+            ArrayList<Cell> row = this.get(x);
+            Cell lastCell = row.get(y);
+            Cell cell = row.get(y - 1);
+            cell.setPVisited(true);
+            cell.setVisited(true);
+            lastCell.setType(CellEntityType.VOID);
+            lastCell.setPVisited(false);
+
+            this.currentCell = cell;
+
+            if (cell.getType() == CellEntityType.VOID) {
+                // System.out.println("You are traveling through the wilderness!");
+            } else if (cell.getType() == CellEntityType.SANCTUARY) {
+                JOptionPane.showMessageDialog(null, "You found a sanctuary!\nYou healed for " +
+                        player.regenH() + " health and " + player.regenM() + " mana!");
+            } else if (cell.getType() == CellEntityType.PORTAL) {
+                JOptionPane.showMessageDialog(null, "You found the portal!");
+                player.levelUp();
+                int newRows = rand.nextInt(3, 10) + 1;
+                int newCols = rand.nextInt(3, 10) + 1;
+                Grid newGrid = gridGenerator(newRows, newCols, player, enemy, account, selectedCharacter);
+                grid = newGrid;
+            } else if (cell.getType() == CellEntityType.ENEMY) {
+                if (enemy.getHealth() <= 0) {
+                    newEnemy();
+                }
+
+                BattleGUI battle = new BattleGUI(player, enemy, currentCell, account, selectedCharacter);
+                battle.setVisible(true);
+            }
+        } else {
+            try {
+                throw new ImpossibleMove("You can't go west");
+            } catch (ImpossibleMove e) {
+                JOptionPane.showMessageDialog(null, "You can't go west");
+            }
+        }
+
+        return grid;
+    }
+
+    public Grid goNorthGUI(Grid grid) {
+        currentCell = this.getCurrentCell();
+        int x = currentCell.getX();
+        int y = currentCell.getY();
+        System.out.printf(x + " " + y);
+        if (x - 1 >= 0) {
+            ArrayList<Cell> row = this.get(x - 1);
+            ArrayList<Cell> lastRow = this.get(x);
+            Cell lastCell = lastRow.get(y);
+            Cell cell = row.get(y);
+            cell.setPVisited(true);
+            cell.setVisited(true);
+            lastCell.setType(CellEntityType.VOID);
+            lastCell.setPVisited(false);
+
+            this.currentCell = cell;
+
+            if (cell.getType() == CellEntityType.VOID) {
+                // System.out.println("You are traveling through the wilderness!");
+            } else if (cell.getType() == CellEntityType.SANCTUARY) {
+                JOptionPane.showMessageDialog(null, "You found a sanctuary!\nYou healed for " +
+                        player.regenH() + " health and " + player.regenM() + " mana!");
+            } else if (cell.getType() == CellEntityType.PORTAL) {
+                JOptionPane.showMessageDialog(null, "You found the portal!");
+                player.levelUp();
+                int newRows = rand.nextInt(3, 10) + 1;
+                int newCols = rand.nextInt(3, 10) + 1;
+                Grid newGrid = gridGenerator(newRows, newCols, player, enemy, account, selectedCharacter);
+                grid = newGrid;
+            } else if (cell.getType() == CellEntityType.ENEMY) {
+                if (enemy.getHealth() <= 0) {
+                    newEnemy();
+                }
+
+                BattleGUI battle = new BattleGUI(player, enemy, currentCell, account, selectedCharacter);
+                battle.setVisible(true);
+            }
+        } else {
+            try {
+                throw new ImpossibleMove("You can't go north");
+            } catch (ImpossibleMove e) {
+                JOptionPane.showMessageDialog(null, "You can't go north");
+            }
+        }
+
+        return grid;
+    }
+
+    public Grid goSouthGUI(Grid grid) {
+        currentCell = this.getCurrentCell();
+        int x = currentCell.getX();
+        int y = currentCell.getY();
+        System.out.printf(x + " " + y);
+        if (x + 1 < rows) {
+            ArrayList<Cell> row = this.get(x + 1);
+            ArrayList<Cell> lastRow = this.get(x);
+            Cell lastCell = lastRow.get(y);
+            Cell cell = row.get(y);
+            cell.setPVisited(true);
+            cell.setVisited(true);
+            lastCell.setType(CellEntityType.VOID);
+            lastCell.setPVisited(false);
+
+            this.currentCell = cell;
+
+            if (cell.getType() == CellEntityType.VOID) {
+                // System.out.println("You are traveling through the wilderness!");
+            } else if (cell.getType() == CellEntityType.SANCTUARY) {
+                JOptionPane.showMessageDialog(null, "You found a sanctuary!\nYou healed for " +
+                        player.regenH() + " health and " + player.regenM() + " mana!");
+            } else if (cell.getType() == CellEntityType.PORTAL) {
+                JOptionPane.showMessageDialog(null, "You found the portal!");
+                player.levelUp();
+                int newRows = rand.nextInt(3, 10) + 1;
+                int newCols = rand.nextInt(3, 10) + 1;
+                Grid newGrid = gridGenerator(newRows, newCols, player, enemy, account, selectedCharacter);
+                grid = newGrid;
+            } else if (cell.getType() == CellEntityType.ENEMY) {
+                if (enemy.getHealth() <= 0) {
+                    newEnemy();
+                }
+
+                BattleGUI battle = new BattleGUI(player, enemy, currentCell, account, selectedCharacter);
+                battle.setVisible(true);
+            }
+        } else {
+            try {
+                throw new ImpossibleMove("You can't go south");
+            } catch (ImpossibleMove e) {
+                JOptionPane.showMessageDialog(null, "You can't go south");
+            }
+        }
+
+        return grid;
+    }
+
 
     public void fight(Cell cell) throws NoAbilities, WrongInput {
 
@@ -460,6 +670,8 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                         } else {
                             if(enemy.getMana() > enemy.abilities.get(enemyAbility).getManaCost()) {
                                 enemy.useAbility(enemy.abilities.get(enemyAbility), player);
+                                player.accept(enemy.abilities.get(enemyAbility));
+
                                 System.out.println("The enemy used " + enemy.abilities.get(enemyAbility).toString());
                                 enemy.abilities.remove(enemyAbility);
                                 enemy.nAbilities--;
