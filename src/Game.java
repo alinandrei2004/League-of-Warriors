@@ -20,7 +20,6 @@ public class Game {
     private Account account;
     private Character character;
 
-    // Constructorul clasei game
     private Game(Character player, Account account, Character character) {
         this.player = player;
         this.account = account;

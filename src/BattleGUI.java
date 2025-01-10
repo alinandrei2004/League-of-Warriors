@@ -154,7 +154,6 @@ public class BattleGUI extends JFrame {
 
         if (player.getHealth() <= 0) {
             JOptionPane.showMessageDialog(this, "You lost the battle!", "Game Over", JOptionPane.ERROR_MESSAGE);
-//            System.exit(0);
             dispose();
             for (Frame frame : Frame.getFrames()) {
                 if (frame.isVisible()) {

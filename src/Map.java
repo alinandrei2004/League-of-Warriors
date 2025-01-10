@@ -8,11 +8,10 @@ public class Map extends JFrame {
     private Account account;
     private Character selectedCharacter;
 
-    // JLabel references for stats
-    private JLabel levelValue;
-    private JLabel xpValue;
-    private JLabel healthValue;
-    private JLabel manaValue;
+    private JTextField levelField;
+    private JTextField xpField;
+    private JTextField healthField;
+    private JTextField manaField;
 
     public Map(Grid grid, Account account, Character selectedCharacter) {
         this.grid = grid;
@@ -20,7 +19,7 @@ public class Map extends JFrame {
         this.selectedCharacter = selectedCharacter;
 
         setTitle("League of Warriors");
-        setSize(800, 800);
+        setSize(1400, 1000);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -68,49 +67,41 @@ public class Map extends JFrame {
         gbc.gridy = 0;
         Font fieldFont = new Font("Arial", Font.PLAIN, 18);
 
-        JLabel statsLabel = new JLabel("Stats", JLabel.LEFT);
+        gbc.gridy++;
+        JLabel statsLabel = new JLabel("Stats");
         statsLabel.setFont(new Font("Arial", Font.BOLD, 24));
         statsPanel.add(statsLabel, gbc);
 
         gbc.gridy++;
-        JLabel levelLabel = new JLabel("Level", JLabel.LEFT);
-        JTextField levelField = new JTextField(String.valueOf(selectedCharacter.getLevel()));
+        levelField = new JTextField("Level: " + selectedCharacter.getLevel());
         levelField.setEditable(false);
         levelField.setFont(fieldFont);
-        statsPanel.add(levelLabel, gbc);
-        gbc.gridx++;
+//        gbc.gridx++;
         statsPanel.add(levelField, gbc);
         gbc.gridx = 0;
 
         gbc.gridy++;
-        JLabel xpLabel = new JLabel("Experience", JLabel.LEFT);
-        JTextField xpField = new JTextField(String.valueOf(selectedCharacter.getXP()));
+        xpField = new JTextField("Experience: " + selectedCharacter.getXP());
         xpField.setEditable(false);
         xpField.setFont(fieldFont);
-        statsPanel.add(xpLabel, gbc);
-        gbc.gridx++;
+//        gbc.gridx++;
         statsPanel.add(xpField, gbc);
         gbc.gridx = 0;
 
         gbc.gridy++;
-        JLabel healthLabel = new JLabel("Health", JLabel.LEFT);
-        JTextField healthField = new JTextField(String.valueOf(selectedCharacter.getHealth()));
+        healthField = new JTextField("Health: " + selectedCharacter.getHealth());
         healthField.setEditable(false);
         healthField.setFont(fieldFont);
-        statsPanel.add(healthLabel, gbc);
-        gbc.gridx++;
+//        gbc.gridx++;
         statsPanel.add(healthField, gbc);
         gbc.gridx = 0;
 
         gbc.gridy++;
-        JLabel manaLabel = new JLabel("Mana", JLabel.LEFT);
-        JTextField manaField = new JTextField(String.valueOf(selectedCharacter.getMana()));
+        manaField = new JTextField("Mana: " + selectedCharacter.getMana());
         manaField.setEditable(false);
         manaField.setFont(fieldFont);
-        statsPanel.add(manaLabel, gbc);
-        gbc.gridx++;
+//        gbc.gridx++;
         statsPanel.add(manaField, gbc);
-
         statsPanel.revalidate();
         statsPanel.repaint();
     }
@@ -126,10 +117,18 @@ public class Map extends JFrame {
                 Cell cell = grid.get(i).get(j);
 
                 JButton cellButton = new JButton();
-                cellButton.setPreferredSize(new Dimension(50, 50));
+                cellButton.setPreferredSize(new Dimension(75, 75));
                 cellButton.setEnabled(false);
-                cellButton.setBackground(getCellColor(cell));
 
+                if (cell.isVisited()) {
+                    cellButton.setBackground(getCellColor(cell));
+                    cellButton.setText("");
+                } else {
+                    cellButton.setBackground(Color.DARK_GRAY);
+                    cellButton.setText("?");
+                    cellButton.setFont(new Font("Arial", Font.BOLD, 24));
+                    cellButton.setForeground(Color.WHITE);
+                }
                 gbc.gridx = j;
                 gbc.gridy = i;
 
@@ -178,13 +177,14 @@ public class Map extends JFrame {
     }
 
     private void updateStatsPanel() {
-        levelValue.setText(String.valueOf(selectedCharacter.getLevel()));
-        xpValue.setText(String.valueOf(selectedCharacter.getXP()));
-        healthValue.setText(String.valueOf(selectedCharacter.getHealth()));
-        manaValue.setText(String.valueOf(selectedCharacter.getMana()));
+        levelField.setText("Level: " + selectedCharacter.getLevel());
+        xpField.setText("Experience: " + selectedCharacter.getXP());
+        healthField.setText("Health: " + selectedCharacter.getHealth());
+        manaField.setText("Mana: " + selectedCharacter.getMana());
 
         statsPanel.revalidate();
         statsPanel.repaint();
     }
 }
+
 

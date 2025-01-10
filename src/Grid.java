@@ -57,7 +57,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             grid.add(row);
         }
 
-        // Set player
         ArrayList<Cell> rowP = grid.getFirst();
         Cell cellP = rowP.getFirst();
         cellP.setType(CellEntityType.PLAYER);
@@ -180,7 +179,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             lastCell.setType(CellEntityType.VOID);
             lastCell.setPVisited(false);
 
-            // Print data about the current cell
             this.currentCell = cell;
             if (cell.getType() == CellEntityType.VOID) {
                 System.out.println("You are traveling trough the wilderness!");
@@ -213,7 +211,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 }
             }
 
-            // Print data about the player
             System.out.println(player.toString());
 
         } else {
@@ -242,7 +239,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             lastCell.setType(CellEntityType.VOID);
             lastCell.setPVisited(false);
 
-            // Print data about the current cell
             this.currentCell = cell;
             if (cell.getType() == CellEntityType.VOID) {
                 System.out.println("You are traveling trough the wilderness!");
@@ -255,7 +251,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 System.out.println("You found the portal!");
 //                System.out.println("You won the game!");
                 player.levelUp();
-                // Exit the game
 //                showMap();
 //                System.exit(0);
                 int newRows = rand.nextInt(3, 10) + 1;
@@ -274,7 +269,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 }
             }
 
-            // Print data about the player
             System.out.println(player.toString());
         } else {
             try {
@@ -303,7 +297,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             lastCell.setType(CellEntityType.VOID);
             lastCell.setPVisited(false);
 
-            // Print data about the current cell
             this.currentCell = cell;
             if (cell.getType() == CellEntityType.VOID) {
                 System.out.println("You are traveling trough the wilderness!");
@@ -316,7 +309,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 System.out.println("You found the portal!");
 //                System.out.println("You won the game!");
                 player.levelUp();
-                // Exit the game
+
 //                showMap();
 //                System.exit(0);
                 int newRows = rand.nextInt(3, 10) + 1;
@@ -335,7 +328,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 }
             }
 
-            // Print data about the player
             System.out.println(player.toString());
         } else {
             try {
@@ -364,7 +356,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
             lastCell.setType(CellEntityType.VOID);
             lastCell.setPVisited(false);
 
-            // Print data about the current cell
             this.currentCell = cell;
             if (cell.getType() == CellEntityType.VOID) {
                 System.out.println("You are traveling trough the wilderness!");
@@ -377,7 +368,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 System.out.println("You found the portal!");
 //                System.out.println("You won the game!");
                 player.levelUp();
-                // Exit the game
 //                showMap();
 //                System.exit(0);
                 int newRows = rand.nextInt(3, 10) + 1;
@@ -396,7 +386,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
                 }
             }
 
-            // Print data about the player
             System.out.println(player.toString());
         } else {
             try {
@@ -432,7 +421,6 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
 //                System.out.println("You are traveling through the wilderness!");
             } else if (cell.getType() == CellEntityType.SANCTUARY) {
 //                System.out.println("You found a sanctuary!");
-//                System.out.println("You healed for " + RED + player.regenH() + " health " + RESET + "and " + BLUE + player.regenM() + " mana!" + RESET);
                 JOptionPane.showMessageDialog(null, "You found a sanctuary!\nYou healed for " +
                         player.regenH() + " health and " + player.regenM() + " mana!");
             } else if (cell.getType() == CellEntityType.PORTAL) {
